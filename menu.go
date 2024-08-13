@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"os/exec"
 )
 
 type menuOption struct {
@@ -13,6 +14,10 @@ type menuOption struct {
 
 func DrawMenu(currentIndex int) {
 	optionsArray := getMenuOptions()
+	if currentIndex < 0 || currentIndex > len(optionsArray)-1 {
+		fmt.Println("Error, index out of optionsArray")
+		return
+	}
 	for index, option := range optionsArray {
 		if index == currentIndex {
 			fmt.Println(cyan + "> " + option.name + reset)
@@ -51,5 +56,8 @@ func ViewEvents() {
 }
 
 func Exit() {
+	showCursor := exec.Command("tput", "cnorm")
+	showCursor.Stdout = os.Stdout
+	showCursor.Run()
 	os.Exit(0)
 }
