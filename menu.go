@@ -5,27 +5,40 @@ import (
 	"os"
 )
 
-func DrawMenu() {
-	currentIndex := 0
-	options := getMenuOptions()
-	optionsArray := []string{}
-	for option := range options {
-		optionsArray = append(optionsArray, option)
-	}
+type menuOption struct {
+	index   int
+	name    string
+	command func()
+}
+
+func DrawMenu(currentIndex int) {
+	optionsArray := getMenuOptions()
 	for index, option := range optionsArray {
 		if index == currentIndex {
-			fmt.Println(cyan + "> " + option + reset)
+			fmt.Println(cyan + "> " + option.name + reset)
 			continue
 		}
-		fmt.Println(" ", option)
+		fmt.Println(" ", option.name)
 	}
 }
 
-func getMenuOptions() map[string]func() {
-	return map[string]func(){
-		"Add Event":            AddEvent,
-		"View Upcoming Events": ViewEvents,
-		"Exit":                 Exit,
+func getMenuOptions() []menuOption {
+	return []menuOption{
+		{
+			index:   0,
+			name:    "Add Event",
+			command: AddEvent,
+		},
+		{
+			index:   1,
+			name:    "View Upcoming Events",
+			command: ViewEvents,
+		},
+		{
+			index:   2,
+			name:    "Exit",
+			command: Exit,
+		},
 	}
 }
 

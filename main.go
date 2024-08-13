@@ -1,22 +1,25 @@
 package main
 
 import (
-	"bufio"
+	//"bufio"
 	"fmt"
 	"os"
 	"os/exec"
 )
 
 func main() {
-	scanner := bufio.NewScanner(os.Stdin)
+	keypress := make([]byte, 1)
+	//scanner := bufio.NewScanner(os.Stdin)
+	currentIndex := 0
 	for {
 		clear := exec.Command("clear")
 		clear.Stdout = os.Stdout
 		clear.Run()
 		fmt.Println("Welcome to the FireCalendar, Christ is King!")
 		fmt.Println("")
-		DrawMenu()
-		scanner.Scan()
+		DrawMenu(currentIndex)
+		os.Stdin.Read(keypress)
+		fmt.Println(keypress)
 	}
 }
 
