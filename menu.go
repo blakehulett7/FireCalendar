@@ -4,12 +4,33 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	//"strconv"
 )
 
 type menuOption struct {
 	index   int
 	name    string
 	command func()
+}
+
+func MenuInputLoop(currentIndex int) int {
+	exec.Command("stty", "-F", "/dev/tty", "cbreak", "min", "1").Run()
+	var input []byte = make([]byte, 1)
+	for {
+		os.Stdin.Read(input)
+		fmt.Println("I got the byte", input, "("+string(input)+")")
+		pressedKey := string(input)
+		if pressedKey == "j" {
+			currentIndex++
+			fmt.Println(currentIndex)
+			return currentIndex
+		}
+		if pressedKey == "k" {
+			currentIndex--
+			fmt.Println(currentIndex)
+			return currentIndex
+		}
+	}
 }
 
 func DrawMenu(currentIndex int) {
@@ -20,10 +41,10 @@ func DrawMenu(currentIndex int) {
 	}
 	for index, option := range optionsArray {
 		if index == currentIndex {
-			fmt.Println(cyan + "> " + option.name + reset)
+			fmt.Println(" " + cyan + "> " + option.name + reset)
 			continue
 		}
-		fmt.Println(" ", option.name)
+		fmt.Println("  ", option.name)
 	}
 }
 
@@ -56,8 +77,7 @@ func ViewEvents() {
 }
 
 func Exit() {
-	showCursor := exec.Command("tput", "cnorm")
-	showCursor.Stdout = os.Stdout
-	showCursor.Run()
+	Run("tput", "cnorm")
+	Run("stty", "-F", "/dev/tty", "echo")
 	os.Exit(0)
 }

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"os"
 	"os/exec"
@@ -10,23 +9,13 @@ import (
 func main() {
 	Run("stty", "-F", "/dev/tty", "-echo")
 	Run("tput", "civis")
-	//keypress := make([]byte, 1)
-	scanner := bufio.NewScanner(os.Stdin)
 	currentIndex := 0
 	for {
-		Run("clear")
+		//Run("clear")
 		fmt.Println("Welcome to the FireCalendar, Christ is King!")
 		fmt.Println("")
 		DrawMenu(currentIndex)
-		//os.Stdin.Read(keypress)
-		//fmt.Println(keypress)
-		scanner.Scan()
-		response := scanner.Text()
-		if response == "exit" {
-			Run("tput", "cnorm")
-			Run("stty", "-F", "/dev/tty", "echo")
-			os.Exit(0)
-		}
+		currentIndex = MenuInputLoop(currentIndex)
 	}
 }
 
