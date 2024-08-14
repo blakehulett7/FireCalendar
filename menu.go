@@ -17,16 +17,15 @@ func MenuInputLoop(currentIndex int) int {
 	var input []byte = make([]byte, 1)
 	for {
 		os.Stdin.Read(input)
-		fmt.Println("I got the byte", input, "("+string(input)+")")
 		pressedKey := string(input)
 		if pressedKey == "j" {
 			currentIndex++
-			fmt.Println(currentIndex)
+			currentIndex = WrapIndex(currentIndex)
 			return currentIndex
 		}
 		if pressedKey == "k" {
 			currentIndex--
-			fmt.Println(currentIndex)
+			currentIndex = WrapIndex(currentIndex)
 			return currentIndex
 		}
 	}
@@ -45,6 +44,17 @@ func DrawMenu(currentIndex int) {
 		}
 		fmt.Println("  ", option.name)
 	}
+}
+
+func WrapIndex(currentIndex int) int {
+	arrayLength := len(getMenuOptions())
+	if currentIndex < 0 {
+		return arrayLength - 1
+	}
+	if currentIndex > arrayLength-1 {
+		return 0
+	}
+	return currentIndex
 }
 
 func getMenuOptions() []menuOption {

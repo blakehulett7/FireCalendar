@@ -11,7 +11,7 @@ func main() {
 	Run("tput", "civis")
 	currentIndex := 0
 	for {
-		//Run("clear")
+		Run("clear")
 		fmt.Println("Welcome to the FireCalendar, Christ is King!")
 		fmt.Println("")
 		DrawMenu(currentIndex)
