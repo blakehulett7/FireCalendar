@@ -13,10 +13,12 @@ type menuOption struct {
 }
 
 func MenuInputLoop(currentIndex int) int {
+	optionsArray := getMenuOptions()
 	exec.Command("stty", "-F", "/dev/tty", "cbreak", "min", "1").Run()
 	var input []byte = make([]byte, 1)
 	for {
 		os.Stdin.Read(input)
+		//fmt.Println("I got the byte", input, "("+string(input)+")")
 		pressedKey := string(input)
 		if pressedKey == "j" {
 			currentIndex++
@@ -26,6 +28,10 @@ func MenuInputLoop(currentIndex int) int {
 		if pressedKey == "k" {
 			currentIndex--
 			currentIndex = WrapIndex(currentIndex)
+			return currentIndex
+		}
+		if pressedKey == "\n" {
+			optionsArray[currentIndex].command()
 			return currentIndex
 		}
 	}
