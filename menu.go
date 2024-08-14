@@ -37,6 +37,17 @@ func MenuInputLoop(currentIndex int) int {
 	}
 }
 
+func WrapIndex(currentIndex int) int {
+	arrayLength := len(getMenuOptions())
+	if currentIndex < 0 {
+		return arrayLength - 1
+	}
+	if currentIndex > arrayLength-1 {
+		return 0
+	}
+	return currentIndex
+}
+
 func DrawMenu(currentIndex int) {
 	optionsArray := getMenuOptions()
 	if currentIndex < 0 || currentIndex > len(optionsArray)-1 {
@@ -50,17 +61,6 @@ func DrawMenu(currentIndex int) {
 		}
 		fmt.Println("  ", option.name)
 	}
-}
-
-func WrapIndex(currentIndex int) int {
-	arrayLength := len(getMenuOptions())
-	if currentIndex < 0 {
-		return arrayLength - 1
-	}
-	if currentIndex > arrayLength-1 {
-		return 0
-	}
-	return currentIndex
 }
 
 func getMenuOptions() []menuOption {
