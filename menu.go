@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 	"os/exec"
@@ -84,11 +85,17 @@ func getMenuOptions() []menuOption {
 }
 
 func AddEvent() {
+	Run("clear")
 	fmt.Println("Adding event...")
+	scanner := bufio.NewScanner(os.Stdin)
+	scanner.Scan()
 }
 
 func ViewEvents() {
+	Run("clear")
 	fmt.Println("Viewing events...")
+	scanner := bufio.NewScanner(os.Stdin)
+	scanner.Scan()
 }
 
 func Exit() {
